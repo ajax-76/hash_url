@@ -18,6 +18,7 @@ before_script:
 build:
     stage: build_images
     script:
+        - docker-compose down
         - docker-compose build
         - docker-compose up -d
         # - docker push "$CI_REGISTRY_IMAGE"
