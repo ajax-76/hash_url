@@ -37,8 +37,8 @@ Architecture :
 - 3 Database servers are used , mongodb is used for this purpose as it is no sql database , scaling  it is much easier , have faster read and write than RDBMS ,  but eventual consistancy helps in data sanity with help of replica sets which has been created.
 
 
--all application have been containerized using docker and docker compose for the orchestration . 
--all the app have their own specfic container making , shipping  much easy .  
+- all application have been containerized using docker and docker compose for the orchestration . 
+- all the app have their own specfic container making , shipping  much easy .  
 
 
 
