@@ -44,10 +44,4 @@ Architecture :
 
 
 
-```bash
- npm run dev
-```
-
-To run the test
-
 
