@@ -32,7 +32,7 @@ Architecture :
 
 
 - node js is used for application server:
-1. Very useful in handling traffice to IO specific operation 
+1. Very useful in handling traffice for IO specific operation 
 2. Easy horizontal scaling is possible .
 3. Asynchronous by nature prevents any blocking in the API . 
 4. Built in cluster module helps in various tasks such scaling and different OS operation . 
@@ -42,7 +42,7 @@ Architecture :
 Primary database is used for writing and other two secondary used for reading operation .
 
 - all application have been containerized using docker and docker compose for the orchestration . 
-- all the app have their own specfic container making , shipping  much easy .  
+- all the app have their own specfic container making the  shipping of the apps  much easy .  
 
 - all the containers are deployed in the digital ocean server .
 
