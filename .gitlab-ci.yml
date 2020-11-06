@@ -1,6 +1,4 @@
-image:
-    name: docker/compose:latest
-    entrypoint: ["/bin/sh", "-c"]
+image: tiangolo/docker-with-compose
   
 #   variables:
 #     DOCKER_HOST: tcp://docker:2375/
