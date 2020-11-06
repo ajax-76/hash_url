@@ -38,7 +38,7 @@ Architecture :
 4. Built in cluster module helps in various tasks such scaling and different OS operation . 
 
 
-- 3 Database servers are used , mongodb is used for this purpose as it is no sql database , scaling  is much easier , have faster read and write than RDBMS ,  also  eventual consistancy helps in data sanity with help of replica sets which has been created.
+- 3 Database servers are used , mongodb is used for this purpose as it is no sql database , scaling  is much easier , have fast read and write ,  also  eventual consistancy helps in data sanity with help of replica sets which has been created.
 Primary database is used for writing and other two secondary used for reading operation .
 
 - all application have been containerized using docker and docker compose for the orchestration . 
