@@ -1,0 +1,1 @@
+FOR Hashing SHA-256 base 64 is used insted of  MD5 ,as SHA-256 is most secure and collision in SHA-256 is quite impossible which is beleived till date , MD5 can produce good hashes but prone to collide as mentioned in the task 'Things to keep in mind: URL length can't be restricted' i have not strictly managed more shortning the url . 
