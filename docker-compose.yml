@@ -1,0 +1,166 @@
+# version: '3'
+
+# services:
+#     nginx: 
+#         image: nginx:latest
+#         container_name: production_nginx
+#         volumes:
+#           - ./nginx:/etc/nginx
+#         ports:
+#           - 8080:8080
+#         networks: 
+#           - nodeapp-network-hash  
+#     node_write:
+#         build:
+#             context: ./writeserver
+#             dockerfile: debug.Dockerfile
+#         ports:
+#             - "6000:6000"  
+#         networks: 
+#             - nodeapp-network-hash
+#     node_read_1:
+#         build:
+#             context: ./readserver
+#             dockerfile: debug.Dockerfile
+#         ports:
+#             - "6002:6001"    
+#         networks: 
+#             - nodeapp-network-hash
+#     node_read_2:
+#         build:
+#             context: ./readserver
+#             dockerfile: debug.Dockerfile
+#         ports:
+#             - "6003:6001"    
+#         networks: 
+#             - nodeapp-network-hash        
+#     # node-client:
+#     #     build:
+#     #         context: ./qart_client/qart-client-v1
+#     #         dockerfile: debug.Dockerfile
+#     #     ports:
+#     #         - "8081:8080"
+#     #     networks: 
+#     #         - nodeapp-network        
+#     mongo:
+#         image: mongo
+#         ports:
+#             - "27019:27017"
+#         networks: 
+#             - nodeapp-network-hash
+
+
+# networks:
+#     nodeapp-network-hash:
+#         driver: bridge
+
+# with replicaset
+
+version: '3'
+
+services:
+    nginx: 
+        image: nginx:latest
+        container_name: production_nginx
+        volumes:
+          - ./nginx:/etc/nginx
+        ports:
+          - 8080:8080
+        networks: 
+          - nodeapp-network-hash_2 
+    node_write:
+        build:
+            context: ./writeserver
+            dockerfile: production.Dockerfile
+        environment:
+            MONGO_URL: mongodb://mongo-primary/HASHED_URL?replicaSet=rs0
+        ports:
+            - "6000:6000"  
+        networks: 
+            - nodeapp-network-hash_2
+    node_read_1:
+        build:
+            context: ./readserver
+            dockerfile: production.Dockerfile
+        environment:
+            MONGO_URL: mongodb://mongo-secondary/HASHED_URL?replicaSet=rs0&readPreference=secondaryPreferred
+        ports:
+            - "6002:6001"    
+        networks: 
+            - nodeapp-network-hash_2
+    node_read_2:
+        build:
+            context: ./readserver
+            dockerfile: production.Dockerfile
+        environment:
+            MONGO_URL: mongodb://mongo-tertiary/HASHED_URL?replicaSet=rs0&readPreference=secondaryPreferred
+        ports:
+            - "6003:6001"    
+        networks: 
+            - nodeapp-network-hash_2        
+    # node-client:
+    #     build:
+    #         context: ./qart_client/qart-client-v1
+    #         dockerfile: debug.Dockerfile
+    #     ports:
+    #         - "8081:8080"
+    #     networks: 
+    #         - nodeapp-network        
+    # mongo:
+    #     image: mongo
+    #     ports:
+    #         - "27019:27017"
+    #     networks: 
+    #         - nodeapp-network-hash
+    mongo-primary:
+        image: mongo
+        volumes:
+            - ./data1/db:/data/db
+            - ./data1/configdb:/data/configdb
+        ports:
+            - "27040:27017"
+        restart: always
+        entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+
+        networks:
+          - nodeapp-network-hash_2
+    mongo-secondary:
+        image: mongo
+        volumes:
+            - ./data2/db:/data/db
+            - ./data2/configdb:/data/configdb
+        ports:
+            - "27041:27017"
+        restart: always
+        entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+        networks:
+            - nodeapp-network-hash_2
+        # depends_on:
+        #    - mongo-primary
+    mongo-tertiary:
+        image: mongo
+        ports:
+            - "27042:27017"
+        volumes:
+            - ./data3/db:/data/db
+            - ./data3/configdb:/data/configdb
+        restart: always
+        entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+        networks:
+            - nodeapp-network-hash_2
+
+    # mongo-replicator:
+    #     build:
+    #         context: ./database_setup
+    #         dockerfile: Dockerfile
+    #     networks:
+    #         - nodeapp-network-hash_2
+    #     depends_on:
+    #         - mongo-primary
+    #         - mongo-secondary
+    #         - mongo-tertiary           
+
+
+networks:
+    nodeapp-network-hash_2:
+        driver: bridge
