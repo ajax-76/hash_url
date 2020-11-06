@@ -1,16 +1,25 @@
 image:
     name: docker/compose:latest
+    entrypoint: ["/bin/sh", "-c"]
   
-  services:
+#   variables:
+#     DOCKER_HOST: tcp://docker:2375/
+#     DOCKER_DRIVER: overlay2
+  
+services:
     - docker:dind
-  
-  before_script:
+
+stages:
+    - build_images
+
+before_script:
     - docker version
     - docker-compose version
-  
-  build:
-    stage: build
-    script:   
+#- docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build:
+    stage: build_images
+    script:
         - docker-compose build
         - docker-compose up -d
         # - docker push "$CI_REGISTRY_IMAGE"
