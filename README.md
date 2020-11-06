@@ -1,6 +1,6 @@
 # URL_HASHING
 
-Contains API for Convertion od long into its hash.
+Contains API for Convertion of long url into its hash.
 
 
 ## Usage
@@ -14,26 +14,28 @@ param : { "url":"long_link"}
 
 response : shortened url  --> on click  redirects to the original url : 
 
+POSTMAN collection is attached in the mail thread
+
 Architecture :
 
 - 3 application web servers :
-1 . Writing Operation
-2 . Reading Operation
-3 . Reading Operation
+1. Writing Operation
+2. Reading Operation
+3. Reading Operation
 
 - 3 Database Servers 
-1  . For Writing Specific
-2  . Reading Specific - replica set
-3  . Reading Specific - replica set
+1. For Writing Specific - Primary Database
+2. Reading Specific - replica set -Secondary Database
+3. Reading Specific - replica set -Secondary Database
 
 - Nginx Reverse Proxy is used as Load Balancer to divide traffic between two read data servers and the last server is used for data writing operation . 
 
 
 - node js is used for application server:
-1 . Very useful in handling traffice to IO specific operation 
-2 . Easy horizontal scaling is possible .
-3 . Asynchronous by nature prevents any blocking in the API . 
-4 . Built in cluster module helps in various tasks such scaling and different OS operation . 
+1. Very useful in handling traffice to IO specific operation 
+2. Easy horizontal scaling is possible .
+3. Asynchronous by nature prevents any blocking in the API . 
+4. Built in cluster module helps in various tasks such scaling and different OS operation . 
 
 
 - 3 Database servers are used , mongodb is used for this purpose as it is no sql database , scaling  is much easier , have faster read and write than RDBMS ,  also  eventual consistancy helps in data sanity with help of replica sets which has been created.
