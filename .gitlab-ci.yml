@@ -1,0 +1,19 @@
+
+
+docker-build:
+    # Official docker image.
+    image: docker:latest
+    stage: build
+    services:
+        - docker:dind
+    before_script:
+        # - docker stop $(docker ps -aq)
+        # - docker rm -f "$CONTAINER_NAME"
+        #- docker ps -q -f name="$CONTAINER_NAME" 
+    # - docker rm -f "$CONTAINER_NAME"
+    # - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+    script:  
+        - docker-compose build
+        - docker-compose up -d
+        # - docker push "$CI_REGISTRY_IMAGE"
+        # - docker run -p "$RUNNING_PORT":"$EXPOSED_PORT" -d --name "$CONTAINER_NAME" "$CI_REGISTRY_IMAGE"
