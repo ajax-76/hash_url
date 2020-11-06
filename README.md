@@ -9,7 +9,7 @@ To get hashed url for a long url
 
 API - 
 POST Request : 
-url : http://http://165.22.208.118:6000/short_url
+url : http://165.22.208.118:6000/short_url
 param : { "url":"long_link"} 
 
 response : shortened url  --> on click  redirects to the original url : 
